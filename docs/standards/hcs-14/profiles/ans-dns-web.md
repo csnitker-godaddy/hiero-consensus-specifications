@@ -15,7 +15,7 @@ sidebar_position: 143
 
 - Connor Snitker ([csnitker@godaddy.com](mailto:csnitker@godaddy.com))  
 
-## 1\. Scope
+## 1. Scope
 
 This profile defines a standardized mechanism for resolving **ANS-registered agents** to endpoints and metadata using **DNS TXT records**. Two resolution modes are supported:
 
@@ -30,13 +30,13 @@ This profile:
 
 This profile is **optional**. HCS-14 core does not require its implementation and does not prioritize it over other discovery profiles.
 
-## 2\. Terminology and Conformance
+## 2. Terminology and Conformance
 
 The key words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, and **MAY** are to be interpreted as described in RFC 2119\.
 
 A resolver is **conformant** with this profile if it implements all normative requirements in Sections 3–11.
 
-## 3\. Applicability (Normative)
+## 3. Applicability (Normative)
 
 This profile applies when all of the following conditions are met:
 
@@ -49,7 +49,7 @@ This profile applies when all of the following conditions are met:
 
 If any condition is not met, the resolver MUST NOT attempt to apply this profile and SHOULD defer to other supported profiles or protocol-native discovery.
 
-## 4\. Discovery via DNS TXT Records (Normative)
+## 4. Discovery via DNS TXT Records (Normative)
 
 ### 4.1 DNS record name
 
@@ -103,7 +103,7 @@ Resolvers MUST determine the resolution mode as follows:
 
 If `mode=direct` and `p` is absent, the resolver MUST fail resolution with `ERR_INVALID_ANS_RECORD`.
 
-## 5\. Direct Mode Resolution (Normative)
+## 5. Direct Mode Resolution (Normative)
 
 When operating in direct mode, resolvers MUST resolve the agent endpoint directly from the DNS TXT record without fetching any additional document.
 
@@ -125,7 +125,7 @@ Resolvers MUST use the `p` value from the TXT record as the resolved protocol. I
 
 On successful direct mode resolution, resolvers MUST report the resolved endpoint URL, the `p` value, and that resolution was performed via direct mode (see Section 9).
 
-## 6\. Fetch Mode Resolution (Normative)
+## 6. Fetch Mode Resolution (Normative)
 
 When operating in fetch mode, resolvers MUST fetch and parse a protocol-native metadata document to determine the agent endpoint.
 
@@ -155,7 +155,7 @@ For each extracted endpoint URL, resolvers MUST validate that the URL host is ex
 
 If all endpoint candidates are rejected by this rule, the resolver MUST fail resolution with `ERR_ENDPOINT_NOT_ANCHORED`.
 
-## 7\. Transparency Log Discovery and Verification (Normative)
+## 7. Transparency Log Discovery and Verification (Normative)
 
 ANS transparency verification is discovered via a second DNS TXT record, `_ans-badge.<nativeId>`, which is independent of the `_ans` resolution record. This separation means transparency verification is available regardless of resolution mode.
 
@@ -221,7 +221,7 @@ The resolver MUST perform Level 2a checks first, then additionally verify the Me
 
 For the highest assurance, resolvers MAY additionally verify that `rootHash` and `treeSize` from the badge response correspond to a published HCS-27 checkpoint message on the Hedera network. The checkpoint topic is identified by the `hcs27TopicId` field in the badge response. Resolvers MUST treat a missing or invalid `hcs27TopicId` as Level 2c unavailable; this MUST NOT affect Level 2a or 2b verification. The mechanism for reading HCS checkpoint messages is out of scope for this profile and is defined by HCS-27.
 
-## 8\. Verification Levels (Normative)
+## 8. Verification Levels (Normative)
 
 ### 8.1 Level 1: DNS and Endpoint Verification
 
@@ -242,7 +242,7 @@ Transparency verification is performed against the `_ans-badge` record as define
 
 Resolvers MUST NOT require transparency verification for baseline endpoint resolution. Achieving Level 1 is sufficient for resolution to succeed.
 
-## 9\. Resolver Output Requirements (Normative)
+## 9. Resolver Output Requirements (Normative)
 
 For successful resolution under this profile, resolvers MUST report:
 
@@ -253,7 +253,7 @@ For successful resolution under this profile, resolvers MUST report:
 - whether Level 1 verification was achieved; and  
 - whether transparency verification was attempted and, if so, which level was achieved (2a, 2b, or 2c).
 
-## 10\. Error Handling (Normative)
+## 10. Error Handling (Normative)
 
 If resolution fails under this profile, the resolver MUST return a structured error.
 
@@ -270,7 +270,7 @@ Required error codes:
 
 Resolvers MAY include additional diagnostic information.
 
-## 11\. Security Considerations
+## 11. Security Considerations
 
 * **DNS spoofing:** Implementations SHOULD validate DNSSEC where available. Direct mode is particularly sensitive to DNS spoofing since no metadata document provides a secondary binding check.  
 * **Endpoint substitution:** Stable FQDN anchoring reduces redirection risk but does not replace cryptographic proof.  
@@ -278,7 +278,7 @@ Resolvers MAY include additional diagnostic information.
 * **Centralization:** This profile provides discovery and optional verification hooks; it does not itself define a decentralization or governance model for registries.  
 * **Downgrade risk:** Implementations SHOULD expose whether transparency verification was performed so relying parties can enforce policy.
 
-## 12\. Examples (Informative)
+## 12. Examples (Informative)
 
 ### 12.1 Direct mode DNS record
 
